@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class grid : MonoBehaviour
+public class Tile : MonoBehaviour
 {
 
     public float cell_size = 0.64f;
     public Renderer rend;
     public int posX, posY;
     private float x, y, z, r;
-    public grid[] nearTiles;
+    public Tile[] nearTiles;
     public bool start = true;
 
     void Start()
@@ -43,12 +43,12 @@ public class grid : MonoBehaviour
             Collider2D[] nearColliders = Physics2D.OverlapCircleAll(new Vector3(x, y, z), r);
             int i = 0;
             int j = 0;
-            nearTiles = new grid[nearColliders.Length - 1];
+            nearTiles = new Tile[nearColliders.Length - 1];
             while (i < nearColliders.Length)
             {
                 if (!(nearColliders[i].gameObject == this.gameObject))
                 {
-                    nearTiles[i - j] = nearColliders[i].GetComponent<grid>();
+                    nearTiles[i - j] = nearColliders[i].GetComponent<Tile>();
                 }
                 else
                 {
