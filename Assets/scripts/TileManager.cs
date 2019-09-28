@@ -2,37 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class TileManager : MonoBehaviour
 {
-
-    public bool start = true;
-    public GameObject tilePrefab;
-    public GameObject[,] tiles;
+    public Tile tilePrefab;
+    public Tile[,] tiles;
     public int width=17, height=30;
     // Start is called before the first frame update
     void Start()
     {
-        tiles = new GameObject[width, height];
+        tiles = new Tile[width, height];
+        Tile temp;
+        int i = 0;
+
+        Collider2D[] nearColliders = Physics2D.OverlapBoxAll(new Vector2(0,0),new Vector2(80,80),0);
+        while (i < nearColliders.Length)
+        {
+            if (!(nearColliders[i].gameObject == tilePrefab.gameObject))
+            {
+                temp = nearColliders[i].GetComponent<Tile>();
+                tiles[temp.posX,temp.posY] = temp;
+            }
+            i++;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (start)
-        {
-            start = false;
-            
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    tiles[i, j] = Instantiate(tilePrefab, new Vector3(i, j, 0), Quaternion.identity);
-                    tiles[i, j].GetComponent<Tile>().posX = i;
-                    tiles[i, j].GetComponent<Tile>().posY = j;
-                    tiles[i, j].GetComponent<Tile>().rePosition();
-                }
-            }
-        }
+        
     }
 }

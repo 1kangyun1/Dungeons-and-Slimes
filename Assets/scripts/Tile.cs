@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
 
@@ -19,7 +20,26 @@ public class Tile : MonoBehaviour
 
     void Update()
     {
-        
+        if (tag == "summon")
+        {
+            rend.material.color = Color.red;
+        }
+        else if(tag == "Untagged")
+        {
+            rend.material.color = new Color(1, 1, 1,1);
+        }
+        else if (tag == "cross")
+        {
+            rend.material.color = Color.yellow;
+        }
+        else if (tag == "path")
+        {
+            rend.material.color = Color.green;
+        }
+        else if (tag == "goal")
+        {
+            rend.material.color = Color.blue;
+        }
     }
 
     public void rePosition()
