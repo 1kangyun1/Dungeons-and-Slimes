@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
         generateSpawnArray();
         //Debug.Log(spawnPoints[0].posX);
         //Debug.Log(spawnPoints[0].posY);
-        Instantiate(aHero, spawnPoints[1].transform.position, Quaternion.identity);
-        aHero.spawn(spawnPoints[1], 1, 1, 1, 80);
     }
 
     private void generateSpawnArray()
@@ -40,6 +38,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            spawnHero();
+        }
+    }
+    private void spawnHero()
+    {
+        int rSpawn = UnityEngine.Random.Range(0, 3);
+        int rSpeed = UnityEngine.Random.Range(1, 100);
+        Instantiate(aHero, spawnPoints[rSpawn].transform.position, Quaternion.identity);
+        aHero.spawn(spawnPoints[rSpawn], 1, 1, 1, rSpeed);
     }
 }

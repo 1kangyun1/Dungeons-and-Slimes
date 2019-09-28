@@ -8,11 +8,11 @@ public class Entity : MonoBehaviour
     public int health, maxHealth, attack, defense, speed; //stats
     public int cX, cY; //character x and y location on grid
     public int directionFacing; //0 = North, 1 = East, 2 = South, 3 = West
-    private TileManager grid;
+    protected TileManager grid;
     public Tile prevTile;
     public Tile curTile;
     public int id;
-    private int clockTimer = 0;
+    protected int clockTimer = 0;
     public void Move()
     {
         if (curTile.tag != "cross")
@@ -32,97 +32,37 @@ public class Entity : MonoBehaviour
             Tile[] availableTiles = findAvailableTiles();
             int numAvail = availableTiles.Length;
             int choice = UnityEngine.Random.Range(0, numAvail);
-            updateDirection(availableTiles[choice]);
+            directionFacing = updateDirection(availableTiles[choice]);
             prevTile = curTile;
             curTile = availableTiles[choice];
             updateXY();
         }
 
     }
-    private int updateDirection(Tile newTile)
+    protected int updateDirection(Tile newTile)
     {
         int xDiff = newTile.posX - cX;
         int yDiff = newTile.posY - cY;
-        if (directionFacing == 0)
+        if (xDiff > 0)
         {
-            if (xDiff > 0)
-            {
-                return 1;
-            }
-            else if (xDiff < 0)
-            {
-                return 3;
-            }
-            else if (yDiff > 0)
-            {
-                return 0;
-            }
-            else if (yDiff < 0)
-            {
-                return 2;
-            }
+            return 1;
         }
-        else if (directionFacing == 1)
+        else if (xDiff < 0)
         {
-            if (xDiff > 0)
-            {
-                return 1;
-            }
-            else if (xDiff < 0)
-            {
-                return 3;
-            }
-            else if (yDiff > 0)
-            {
-                return 0;
-            }
-            else if (yDiff < 0)
-            {
-                return 2;
-            }
+            return 3;
         }
-        else if (directionFacing == 2)
+        else if (yDiff > 0)
         {
-            if (xDiff > 0)
-            {
-                return 1;
-            }
-            else if (xDiff < 0)
-            {
-                return 3;
-            }
-            else if (yDiff > 0)
-            {
-                return 0;
-            }
-            else if (yDiff < 0)
-            {
-                return 2;
-            }
+            return 0;
         }
-        else
+        else if (yDiff < 0)
         {
-            if (xDiff > 0)
-            {
-                return 1;
-            }
-            else if (xDiff < 0)
-            {
-                return 3;
-            }
-            else if (yDiff > 0)
-            {
-                return 0;
-            }
-            else if (yDiff < 0)
-            {
-                return 2;
-            }
+            return 2;
         }
-        return 0;
+        return directionFacing;
     }
 
-    private void turnAround()
+    protected void turnAround()
     {
         int newDirection = directionFacing + 2;
         if (newDirection >= 4)
@@ -132,7 +72,7 @@ public class Entity : MonoBehaviour
         directionFacing = newDirection;
     }
 
-    private void moveOneUnit(int direction)
+    protected void moveOneUnit(int direction)
     {
         prevTile = curTile;
         if (direction == 0)
@@ -155,7 +95,7 @@ public class Entity : MonoBehaviour
     }
 
 
-    private bool tileExists(int lookDirection)
+    protected bool tileExists(int lookDirection)
     {
         if (lookDirection == 0)
         {
@@ -175,7 +115,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    private Tile[] findAvailableTiles()
+    protected Tile[] findAvailableTiles()
     {
         int numTilesReturned = 3;
         Tile[] tilesReturned = new Tile[numTilesReturned];
@@ -301,7 +241,10 @@ public class Entity : MonoBehaviour
             }
         }
         Tile[] temp = new Tile[numTilesReturned];
-        tilesReturned.CopyTo(temp, 0);
+        for (int i = 0; i < numTilesReturned; i++)
+        {
+            temp[i] = tilesReturned[i];
+        }
         tilesReturned = temp;
         return tilesReturned;
     }
@@ -325,7 +268,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    private void updatePos()
+    protected void updatePos()
     {
         transform.position = new Vector3((float)(cX - 8), (float)cY, -0.3f);
         //Debug.Log(transform.position.x);
@@ -343,10 +286,10 @@ public class Entity : MonoBehaviour
         health = maxHealth;
         attack = inAttack;
         defense = inDefense;
-        speed = 100 - inSpeed;
+        speed = (100 - inSpeed);
     }
 
-    private void updateXY()
+    protected void updateXY()
     {
         cX = curTile.posX;
         cY = curTile.posY;
