@@ -10,3 +10,4 @@ Library/
 *.pidb
 *.booproj
 *.DS_store
+Logs/

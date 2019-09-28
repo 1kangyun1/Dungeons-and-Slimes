@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class entityScript : MonoBehaviour {
-
+    public grid myCell;
 	// Use this for initialization
 	void Start () {
 		
