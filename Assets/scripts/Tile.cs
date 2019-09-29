@@ -1,4 +1,4 @@
-ï»¿using System.Collections;
+?¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +8,9 @@ public class Tile : MonoBehaviour
     public float cell_size = 0.64f;
     public Renderer rend;
     public int posX, posY;
-    public List<Collider2D> colliders = new List<Collider2D>();
+    SpriteRenderer spr;
+    Sprite path;
+ 	public List<Collider2D> colliders = new List<Collider2D>();
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -33,33 +35,17 @@ public class Tile : MonoBehaviour
     void Start()
     {
         rend = GetComponent<Renderer>();
-        
-
-        
+        path = Resources.Load<Sprite>("basic-path");
+        spr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (tag == "summon")
-        {
-            rend.material.color = Color.red;
-        }
-        else if(tag == "Untagged")
-        {
-            rend.material.color = new Color(1, 1, 1,1);
-        }
-        else if (tag == "cross")
-        {
-            rend.material.color = Color.yellow;
-        }
-        else if (tag == "path")
-        {
-            rend.material.color = Color.green;
-        }
-        else if (tag == "goal")
-        {
-            rend.material.color = Color.blue;
-        }
+        //rend.material.color = Color.white;
+        //if (tag == "cross" || tag == "path")
+        //{
+        //    spr.sprite = path;
+        //}
     }
 
     public void rePosition()
