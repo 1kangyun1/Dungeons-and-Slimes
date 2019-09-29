@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
 
@@ -10,6 +11,8 @@ public class Tile : MonoBehaviour
     public int posX, posY;
     public List<Collider2D> colliders = new List<Collider2D>();
     public BoxCollider2D myCollider;
+    SpriteRenderer spr;
+    Sprite path; Sprite wall; Sprite goal; Sprite door;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -37,31 +40,39 @@ public class Tile : MonoBehaviour
         rend = GetComponent<Renderer>();
         myCollider = GetComponent<BoxCollider2D>();
         myCollider.size = new Vector2(0.98f, 0.98f);
-
         
+        path = Resources.Load<Sprite>("basic-path");
+        wall = Resources.Load<Sprite>("wall-1");
+        goal = Resources.Load<Sprite>("teal-path");
+        door = Resources.Load<Sprite>("door-2");
+        spr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (tag == "summon")
+        // To reset color bindings on map tile textures
+        rend.material.color = Color.white;
+
+        // To set map textures en masse
+        if (tag == "Untagged")
         {
-            rend.material.color = Color.red;
+            spr.sprite = wall;
         }
-        else if(tag == "Untagged")
+        else if (tag == "cross" || tag == "path")
         {
-            rend.material.color = new Color(1, 1, 1,1);
-        }
-        else if (tag == "cross")
-        {
-            rend.material.color = Color.yellow;
-        }
-        else if (tag == "path")
-        {
-            rend.material.color = Color.green;
+            spr.sprite = path;
         }
         else if (tag == "goal")
         {
-            rend.material.color = Color.blue;
+            spr.sprite = goal;
+        }
+        else if (tag == "summon")
+        {
+            spr.sprite = door;
+        }
+        else if (tag == "slimeSpawn")
+        {
+            spr.sprite = path;           
         }
     }
 
