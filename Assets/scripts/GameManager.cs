@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
         {
             spawnSlime();
         }
-        if
     }
     private void spawnHero()
     {
