@@ -15,16 +15,17 @@ public class Tile : MonoBehaviour
     void Start()
     {
         rend = GetComponent<Renderer>();
-        path = Resources.Load<Sprite>("Assets/orange-path.jpg");
+        path = Resources.Load<Sprite>("basic-path");
         spr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (tag == "cross" || tag == "path")
-        {
-            spr.sprite = path;
-        }
+        //rend.material.color = Color.white;
+        //if (tag == "cross" || tag == "path")
+        //{
+        //    spr.sprite = path;
+        //}
     }
 
     public void rePosition()
