@@ -56,21 +56,21 @@ public class SlimeMergeResult : MonoBehaviour
     public Dictionary<int, SlimeManager.SlimeModel> slimeList;
 
     Vector3 initPosition;
-    Vector3 hidePosition = new Vector3(-9999999f, -99999999f, 0);
+    Vector3 hidePosition = new Vector3(0f, 0f, 0);
 
     public void show()
     {
-        transform.position = initPosition;
+        transform.localScale = initPosition;
     }
 
     public void hide()
     {
-        transform.position = hidePosition;
+        transform.localScale = hidePosition;
     }
 
     public void setSlime(int slimeId1, int slimeId2, int cost)
     {
-        if (true)//gm.spendMoney(cost))
+        if (gm.spendMoney(cost))
         {
             string key1 = "" + slimeId1 + "," + slimeId2;
             string key2 = "" + slimeId2 + "," + slimeId1;
@@ -117,7 +117,7 @@ public class SlimeMergeResult : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        initPosition = transform.position;
+        initPosition = transform.localScale;
         hide();
 
         slimeManager = GameObject.FindWithTag("slimemanager");

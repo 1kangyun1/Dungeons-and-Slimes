@@ -13,13 +13,14 @@ public class SlimeItem : MonoBehaviour
     public int slimeId;
     public int slimeCost;
 
-    public void setSlimeObjectParam(int id, GameObject sprite)
+    public void setSlimeObjectParam(int id, int cost, GameObject sprite)
     {
         slimeObject = Instantiate(wrapperPrefab, new Vector3(10, -10, -0.1f), Quaternion.identity);
         slimeObject.transform.SetParent(transform, false);
 
         SlimeSlime slimeslime = slimeObject.GetComponent<SlimeSlime>();
         slimeslime.slimeId = id;
+        slimeslime.slimeCost = cost;
         slimeslime.setSprite(sprite);
     }
 

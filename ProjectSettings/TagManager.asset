@@ -9,6 +9,11 @@ TagManager:
   - cross
   - goal
   - slimeSpawn
+  - summoncircle
+  - slimemanager
+  - mergeresult
+  - summonsummon
+  - moneeh
   layers:
   - Default
   - TransparentFX

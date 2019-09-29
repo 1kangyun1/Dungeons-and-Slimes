@@ -52,7 +52,7 @@ public class SlimeManager : MonoBehaviour
             newItem.transform.SetParent(transform, false);
 
             SlimeItem slimeObject = newItem.GetComponent<SlimeItem>();
-            slimeObject.setSlimeObjectParam(slime.slimeId, slime.sprite);
+            slimeObject.setSlimeObjectParam(slime.slimeId, slime.slimeCost, slime.sprite);
             slimeObject.setTextObjectParam(slime.slimeCost);
         }
     }

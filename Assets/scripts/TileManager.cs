@@ -23,6 +23,7 @@ public class TileManager : MonoBehaviour
         tiles = new Tile[width, height];
         Tile temp;
         int i = 0;
+        int j = 0;
 
         Collider2D[] nearColliders = Physics2D.OverlapBoxAll(new Vector2(0, 0), new Vector2(80, 80), 0);
         while (i < nearColliders.Length)
@@ -31,8 +32,14 @@ public class TileManager : MonoBehaviour
             {
                 temp = nearColliders[i].GetComponent<Tile>();
                 tiles[temp.posX, temp.posY] = temp;
+                j++;
+
             }
             i++;
+            if (j == 510)
+            {
+                break;
+            }
         }
     }
 }

@@ -35,6 +35,20 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public bool spendMoney(int cost)
+    {
+        Debug.Log("moeny" + cost + " " + money);
+        if (money > cost)
+        {
+            money -= cost;
+            GameObject.FindWithTag("moneeh").GetComponent<CurrentMoney>().setCurrentMoney(money);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void generateSpawnArray()
     {
         int spawnIndex = 0;
@@ -102,9 +116,11 @@ public class GameManager : MonoBehaviour
         int[] slimeStats = slimeTypes[id];
         if (firstRun)
         { Tile test = spawnPoints[rSpawn]; }
-        aSlime.GetComponent<SpriteRenderer>().sprite = test.GetComponent<SpriteRenderer>().sprite;
-        aSlime.GetComponent<Animator>().runtimeAnimatorController = test.GetComponent<Animator>().runtimeAnimatorController;
+        //aSlime.GetComponent<SpriteRenderer>().sprite = test.GetComponent<SpriteRenderer>().sprite;
+        //aSlime.GetComponent<Animator>().runtimeAnimatorController = test.GetComponent<Animator>().runtimeAnimatorController;
         newSlime = Instantiate(aSlime, slimeSpawnPoints[rSpawn].transform.position, Quaternion.identity);
+        newSlime.GetComponent<SpriteRenderer>().sprite = inPrefab.GetComponent<SpriteRenderer>().sprite;
+        newSlime.GetComponent<Animator>().runtimeAnimatorController = inPrefab.GetComponent<Animator>().runtimeAnimatorController;
         newSlime.spawn(slimeSpawnPoints[rSpawn], slimeStats[0], slimeStats[1], slimeStats[2], slimeStats[3]);
     }
 

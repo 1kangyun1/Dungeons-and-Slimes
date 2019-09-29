@@ -18,6 +18,7 @@ public class SlimeSlime : MonoBehaviour
     public SlimeSlime slimeClone;
     bool isDragging = false;
     Vector3 offset;
+    GameManager gm;
 
     public void setSprite(GameObject sprite)
     {
@@ -33,6 +34,7 @@ public class SlimeSlime : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -45,7 +47,7 @@ public class SlimeSlime : MonoBehaviour
     {
         if (isClone && isDragging)
         {
-            if (col.gameObject.tag == "summoncircle")
+            if (col.gameObject.tag == "summoncircle" || col.gameObject.tag == "summonsummon")
             {
                 summonCircle = col.gameObject;
                 isInCircle = true;
@@ -95,6 +97,14 @@ public class SlimeSlime : MonoBehaviour
                 transform.position = new Vector3(summonCircle.transform.position.x, summonCircle.transform.position.y + 0.5f, summonCircle.transform.position.z - 0.1f);
                 MergeCircle mergeCircle = summonCircle.GetComponent<MergeCircle>();
                 mergeCircle.setCurrentSlime(this);
+                if (summonCircle.gameObject.tag == "summonsummon")
+                {
+                    if (gm.spendMoney(slimeCost)) {
+                        gm.spawnSlimeTile(this.spritePrefab, this.slimeId);
+                    }
+                    Destroy(this.gameObject);
+                    Destroy(this);
+                }
                 // add self to circle
             }
             else
