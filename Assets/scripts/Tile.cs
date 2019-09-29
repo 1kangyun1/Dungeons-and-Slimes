@@ -2,14 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
 
     public float cell_size = 0.64f;
     public Renderer rend;
     public int posX, posY;
+    public List<Collider2D> colliders = new List<Collider2D>();
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!colliders.Contains(other))
+        {
+            colliders.Add(other);
+        }
+        //Debug.Log(posX);
+        //Debug.Log(posY);
+
+        //for (int i = 0; i < colliders.Count; i++)
+        //{
+        //    if (colliders[i].gameObject.GetComponent<Hero>())
+        //        Debug.Log(colliders[i].gameObject.GetComponent<Hero>());
+        //}
+
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        colliders.Remove(other);
+    }
     void Start()
     {
         rend = GetComponent<Renderer>();
