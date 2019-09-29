@@ -18,6 +18,14 @@ abstract public class Entity : MonoBehaviour
     protected int deathTime;
     protected bool dying = false;
     public bool newSpawn = true;
+    protected float velocity;
+    protected float saveVelocity;
+    protected float vX;
+    protected float vY;
+    protected float cXF;
+    protected float cYF;
+    protected bool haveMoved = false;
+
     public void Move()
     {
         if (curTile.tag != "cross")
@@ -29,6 +37,7 @@ abstract public class Entity : MonoBehaviour
             else
             {
                 turnAround();
+                updateVelo();
                 Move();
             }
         }
@@ -38,6 +47,7 @@ abstract public class Entity : MonoBehaviour
             int numAvail = availableTiles.Length;
             int choice = UnityEngine.Random.Range(0, numAvail);
             directionFacing = updateDirection(availableTiles[choice]);
+            updateVelo();
             prevTile = curTile;
             curTile = availableTiles[choice];
             updateXY();
@@ -253,24 +263,24 @@ abstract public class Entity : MonoBehaviour
         tilesReturned = temp;
         return tilesReturned;
     }
-
-    protected Tile findTileDirection(Tile curTile, int direction)
+    //comment
+    protected Tile findTileDirection(Tile cTile, int direction)
     {
         if (direction == 0)
         {
-            return grid.tiles[curTile.posX, curTile.posY + 1];
+            return grid.tiles[cTile.posX, cTile.posY + 1];
         }
         else if (direction == 1)
         {
-            return grid.tiles[curTile.posX + 1, curTile.posY];
+            return grid.tiles[cTile.posX + 1, cTile.posY];
         }
         else if (direction == 2)
         {
-            return grid.tiles[curTile.posX, curTile.posY - 1];
+            return grid.tiles[cTile.posX, cTile.posY - 1];
         }
         else
         {
-            return grid.tiles[curTile.posX - 1, curTile.posY];
+            return grid.tiles[cTile.posX - 1, cTile.posY];
         }
     }
     // Start is called before the first frame update
@@ -283,15 +293,15 @@ abstract public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        checkGameOver();
         if (newSpawn)
         {
             adjustDirection();
+            updateVelo();
             newSpawn = false;
         }
-        //displays entity
-        if (curTile)
-            updatePos();
 
+        //displays entity
         clockTimer++;
         if (dying && clockTimer >= deathTime)
         {
@@ -302,47 +312,90 @@ abstract public class Entity : MonoBehaviour
         if (clockTimer % speed == 0)
         {
             if (!inBattle)
+            {
                 Move();
+                haveMoved = true;
+            }
             else
             {
                 inBattle = AttackTarget();
             }
         }
+        if (curTile)
+            updatePos();
     }
 
     protected void updatePos()
     {
-        transform.position = new Vector3((float)(cX - 8), (float)cY, -0.3f);
-        //Debug.Log(transform.position.x);
-        //Debug.Log(transform.position.y);
-        //Debug.Log(transform.position.z);
+        if (!inBattle && haveMoved)
+        {
+            cXF += vX;
+            cYF += vY;
+        }
+        transform.position = new Vector3(cXF - 8, cYF, -0.3f);
 
+    }
 
+    protected void updateVelo()
+    {
+        if (inBattle)
+        {
+            vX = 0;
+            vY = 0;
+        }
+        else
+        {
+            if (directionFacing == 0)
+            {
+                vX = 0;
+                vY = velocity;
+            }
+            else if (directionFacing == 1)
+            {
+                vX = velocity;
+                vY = 0;
+            }
+            else if (directionFacing == 2)
+            {
+                vX = 0;
+                vY = -velocity;
+            }
+            else
+            {
+                vX = -velocity;
+                vY = 0;
+            }
+        }
     }
 
     public void spawn(Tile spawnTile, int inMaxHealth, int inAttack, int inDefense, int inSpeed)
     {
+        prevTile = spawnTile;
         curTile = spawnTile;
+
         updateXY();
         maxHealth = inMaxHealth;
         health = maxHealth;
         attack = inAttack;
         defense = inDefense;
         speed = (100 - inSpeed);
+        velocity = 1f / speed; //1f = smooth
     }
 
     protected void updateXY()
     {
         cX = curTile.posX;
         cY = curTile.posY;
+        cXF = prevTile.posX;
+        cYF = prevTile.posY;
     }
 
     public bool Attacked(int enemyAttack)
     {
-        health -= enemyAttack;
+        health -= (enemyAttack);// * Mathf.RoundToInt((100 - defense) / 100);
         if (health <= 0)
         {
-            deathTime = clockTimer + 15;
+            deathTime = clockTimer + 5;
             dying = true;
             return true;
         }
@@ -371,4 +424,6 @@ abstract public class Entity : MonoBehaviour
     }
 
     public abstract bool AttackTarget();
+
+    public abstract void checkGameOver();
 }

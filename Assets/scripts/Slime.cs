@@ -37,4 +37,6 @@ public class Slime : Entity
         return target.Attacked(attack);
     }
 
+    public override void checkGameOver(){}
+
 }

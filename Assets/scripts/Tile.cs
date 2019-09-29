@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     public Renderer rend;
     public int posX, posY;
     public List<Collider2D> colliders = new List<Collider2D>();
+    public BoxCollider2D myCollider;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -32,8 +33,10 @@ public class Tile : MonoBehaviour
     }
     void Start()
     {
+
         rend = GetComponent<Renderer>();
-        
+        myCollider = GetComponent<BoxCollider2D>();
+        myCollider.size = new Vector2(0.98f, 0.98f);
 
         
     }

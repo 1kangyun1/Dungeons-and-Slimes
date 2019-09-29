@@ -8,6 +8,7 @@ TagManager:
   - path
   - cross
   - goal
+  - slimeSpawn
   layers:
   - Default
   - TransparentFX
