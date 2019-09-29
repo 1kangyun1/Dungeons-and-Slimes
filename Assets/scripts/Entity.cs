@@ -286,7 +286,8 @@ abstract public class Entity : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = (TileManager)FindObjectOfType(typeof(TileManager));
+        //grid = (TileManager)FindObjectOfType(typeof(TileManager));
+        grid = GameObject.Find("gridTiles").GetComponent<TileManager>();
         directionFacing = 2;
     }
 
@@ -305,6 +306,8 @@ abstract public class Entity : MonoBehaviour
         clockTimer++;
         if (dying && clockTimer >= deathTime)
         {
+            if (gameObject.GetComponent<Hero>())
+                GameObject.Find("GameManager").GetComponent<GameManager>().money += 3;
             Destroy(this.gameObject);
         }
 
