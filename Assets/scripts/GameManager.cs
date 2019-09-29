@@ -48,6 +48,6 @@ public class GameManager : MonoBehaviour
         int rSpawn = UnityEngine.Random.Range(0, 3);
         int rSpeed = UnityEngine.Random.Range(1, 100);
         Instantiate(aHero, spawnPoints[rSpawn].transform.position, Quaternion.identity);
-        aHero.spawn(spawnPoints[rSpawn], 1, 1, 1, rSpeed);
+        aHero.spawn(spawnPoints[rSpawn], 1, 1, 1, 1);// rSpeed);
     }
 }

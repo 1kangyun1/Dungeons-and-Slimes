@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+abstract public class Entity : MonoBehaviour
 {
     public int health, maxHealth, attack, defense, speed; //stats
     public int cX, cY; //character x and y location on grid
@@ -13,6 +13,8 @@ public class Entity : MonoBehaviour
     public Tile curTile;
     public int id;
     protected int clockTimer = 0;
+    public bool inBattle = false;
+    public Entity target;
     public void Move()
     {
         if (curTile.tag != "cross")
@@ -294,4 +296,6 @@ public class Entity : MonoBehaviour
         cX = curTile.posX;
         cY = curTile.posY;
     }
+
+    public abstract bool findEnemy();
 }
