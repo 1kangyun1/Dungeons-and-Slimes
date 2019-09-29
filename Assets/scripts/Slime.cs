@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : Entity
+public class Slime : Entity
 {
     public override bool findEnemy()
     {
@@ -19,9 +19,9 @@ public class Hero : Entity
                     {
                         for (int i = 0; i < currentSearch.colliders.Count; i++)
                         {
-                            if (currentSearch.colliders[i].gameObject.GetComponent<Slime>())
+                            if (currentSearch.colliders[i].gameObject.GetComponent<Hero>())
                             {
-                                target = currentSearch.colliders[i].gameObject.GetComponent<Slime>();
+                                target = currentSearch.colliders[i].gameObject.GetComponent<Hero>();
                                 return true;
                             }
                         }

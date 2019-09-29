@@ -15,6 +15,9 @@ abstract public class Entity : MonoBehaviour
     protected int clockTimer = 0;
     public bool inBattle = false;
     public Entity target;
+    protected int deathTime;
+    protected bool dying = false;
+    public bool newSpawn = true;
     public void Move()
     {
         if (curTile.tag != "cross")
@@ -251,6 +254,25 @@ abstract public class Entity : MonoBehaviour
         return tilesReturned;
     }
 
+    protected Tile findTileDirection(Tile curTile, int direction)
+    {
+        if (direction == 0)
+        {
+            return grid.tiles[curTile.posX, curTile.posY + 1];
+        }
+        else if (direction == 1)
+        {
+            return grid.tiles[curTile.posX + 1, curTile.posY];
+        }
+        else if (direction == 2)
+        {
+            return grid.tiles[curTile.posX, curTile.posY - 1];
+        }
+        else
+        {
+            return grid.tiles[curTile.posX - 1, curTile.posY];
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -261,12 +283,30 @@ abstract public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (newSpawn)
+        {
+            adjustDirection();
+            newSpawn = false;
+        }
+        //displays entity
         if (curTile)
             updatePos();
+
         clockTimer++;
+        if (dying && clockTimer >= deathTime)
+        {
+            Destroy(this.gameObject);
+        }
+
+        inBattle = findEnemy();
         if (clockTimer % speed == 0)
         {
-            Move();
+            if (!inBattle)
+                Move();
+            else
+            {
+                inBattle = AttackTarget();
+            }
         }
     }
 
@@ -297,5 +337,38 @@ abstract public class Entity : MonoBehaviour
         cY = curTile.posY;
     }
 
+    public bool Attacked(int enemyAttack)
+    {
+        health -= enemyAttack;
+        if (health <= 0)
+        {
+            deathTime = clockTimer + 15;
+            dying = true;
+            return true;
+        }
+        return false;
+    }
+
     public abstract bool findEnemy();
+
+    public void adjustDirection()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (tileExists(directionFacing))
+            {
+                if (findTileDirection(curTile, directionFacing).tag == "Untagged")
+                {
+                    directionFacing--;
+                    if (directionFacing < 0) directionFacing += 4;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    public abstract bool AttackTarget();
 }
