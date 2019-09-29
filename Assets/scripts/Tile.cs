@@ -1,7 +1,8 @@
-?¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
 
@@ -9,7 +10,7 @@ public class Tile : MonoBehaviour
     public Renderer rend;
     public int posX, posY;
     SpriteRenderer spr;
-    Sprite path;
+    Sprite path; Sprite wall; Sprite goal; Sprite door;
  	public List<Collider2D> colliders = new List<Collider2D>();
 
     void OnTriggerEnter2D(Collider2D other)
@@ -36,16 +37,34 @@ public class Tile : MonoBehaviour
     {
         rend = GetComponent<Renderer>();
         path = Resources.Load<Sprite>("basic-path");
+        wall = Resources.Load<Sprite>("wall-1");
+        goal = Resources.Load<Sprite>("teal-path");
+        door = Resources.Load<Sprite>("door-2");
         spr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        //rend.material.color = Color.white;
-        //if (tag == "cross" || tag == "path")
-        //{
-        //    spr.sprite = path;
-        //}
+        // To reset color bindings on map tile textures
+        rend.material.color = Color.white;
+
+        // To set map textures en masse
+        if (tag == "Untagged")
+        {
+            spr.sprite = wall;
+        }
+        else if (tag == "cross" || tag == "path")
+        {
+            spr.sprite = path;
+        }
+        else if (tag == "goal")
+        {
+            spr.sprite = goal;
+        }
+        else if (tag == "summon")
+        {
+            spr.sprite = door;
+        }
     }
 
     public void rePosition()
