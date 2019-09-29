@@ -22,38 +22,46 @@ public class SlimeManager : MonoBehaviour
 
     List<SlimeModel> researchedSlimes = new List<SlimeModel>();
 
-    public void addSlime(int slimeId, GameObject sprite, int slimeCost)
+    public void addSlime(SlimeModel slime)
     {
         SlimeModel findSlimeModel = researchedSlimes.Find(
         delegate (SlimeModel slimeModel)
         {
-            return slimeModel.slimeId == slimeId;
+            return slimeModel.slimeId == slime.slimeId;
         });
 
         if (findSlimeModel == null)
         {
-            SlimeModel slimeModel = new SlimeModel(slimeId, sprite, slimeCost);
+            SlimeModel slimeModel = slime;
             researchedSlimes.Add(slimeModel);
 
-            GameObject newItem = Instantiate(slimeItem, new Vector3(
-                0, 
-                researchedSlimes.Count * -10f,
-                0), Quaternion.identity);
+            GameObject newItem;
+            if (researchedSlimes.Count < 10)
+            {
+                newItem = Instantiate(slimeItem, new Vector3(
+                0,
+                (researchedSlimes.Count - 1) * -1f,
+                -0.1f), Quaternion.identity);
+            } else
+            {
+                newItem = Instantiate(slimeItem, new Vector3(
+                2.4f,
+                (researchedSlimes.Count - 10) * -1f,
+                -0.1f), Quaternion.identity);
+            }
             newItem.transform.SetParent(transform, false);
 
             SlimeItem slimeObject = newItem.GetComponent<SlimeItem>();
-            SlimeSlime slimeslime = slimeObject.slimeObject.GetComponent<SlimeSlime>();
-            slimeslime.slimeId = slimeId;
-            slimeslime.setSprite(sprite);
-            slimeObject.textObject.GetComponent<UnityEngine.UI.Text>().text = "$" + slimeCost;
+            slimeObject.setSlimeObjectParam(slime.slimeId, slime.sprite);
+            slimeObject.setTextObjectParam(slime.slimeCost);
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject newItem = Instantiate(slimeItem, new Vector3(0, 0, -0.1f), Quaternion.identity);
-        newItem.transform.SetParent(transform, false);
+        //GameObject newItem = Instantiate(slimeItem, new Vector3(0, 0, -0.1f), Quaternion.identity);
+        //newItem.transform.SetParent(transform, false);
     }
 
     // Update is called once per frame

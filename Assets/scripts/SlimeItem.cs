@@ -13,15 +13,26 @@ public class SlimeItem : MonoBehaviour
     public int slimeId;
     public int slimeCost;
 
-    // Start is called before the first frame update
-    void Start()
+    public void setSlimeObjectParam(int id, GameObject sprite)
     {
         slimeObject = Instantiate(wrapperPrefab, new Vector3(10, -10, -0.1f), Quaternion.identity);
         slimeObject.transform.SetParent(transform, false);
-        slimeObject.GetComponent<SlimeSlime>().setSprite(genericSlimePrefab);
 
+        SlimeSlime slimeslime = slimeObject.GetComponent<SlimeSlime>();
+        slimeslime.slimeId = id;
+        slimeslime.setSprite(sprite);
+    }
+
+    public void setTextObjectParam(int slimeCost)
+    {
         textObject = Instantiate(genericTextPrefab, new Vector3(55, -16, -0.1f), Quaternion.identity);
         textObject.transform.SetParent(transform, false);
+        textObject.GetComponent<UnityEngine.UI.Text>().text = "$" + slimeCost;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
     }
 
     // Update is called once per frame

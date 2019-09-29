@@ -12,8 +12,14 @@ public class MergeCircle : MonoBehaviour
         {
             Destroy(currentSlime.gameObject);
             Destroy(currentSlime);
+            currentSlime = null;
         }
         currentSlime = slime;
+    }
+
+    public SlimeSlime getCurrentSlime()
+    {
+        return currentSlime;
     }
 
     // Start is called before the first frame update

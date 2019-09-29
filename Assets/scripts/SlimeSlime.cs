@@ -10,6 +10,7 @@ public class SlimeSlime : MonoBehaviour
     public int slimeCost;
 
     public GameObject sprite;
+    public GameObject spritePrefab;
 
     GameObject summonCircle;
     bool isInCircle = false;
@@ -26,6 +27,7 @@ public class SlimeSlime : MonoBehaviour
         }
         this.sprite = Instantiate(sprite, new Vector3(0, 0, 0.05f), Quaternion.identity);
         this.sprite.transform.SetParent(transform, false);
+        this.spritePrefab = sprite;
     }
 
     // Start is called before the first frame update
@@ -98,6 +100,7 @@ public class SlimeSlime : MonoBehaviour
             else
             {
                 Destroy(gameObject);
+                Destroy(this);
             }
         }
     }
