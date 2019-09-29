@@ -9,36 +9,21 @@ public class Tile : MonoBehaviour
     public float cell_size = 0.64f;
     public Renderer rend;
     public int posX, posY;
+    SpriteRenderer spr;
+    Sprite path;
 
     void Start()
     {
         rend = GetComponent<Renderer>();
-        
-
-        
+        path = Resources.Load<Sprite>("Assets/orange-path.jpg");
+        spr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (tag == "summon")
+        if (tag == "cross" || tag == "path")
         {
-            rend.material.color = Color.red;
-        }
-        else if(tag == "Untagged")
-        {
-            rend.material.color = new Color(1, 1, 1,1);
-        }
-        else if (tag == "cross")
-        {
-            rend.material.color = Color.yellow;
-        }
-        else if (tag == "path")
-        {
-            rend.material.color = Color.green;
-        }
-        else if (tag == "goal")
-        {
-            rend.material.color = Color.blue;
+            spr.sprite = path;
         }
     }
 
