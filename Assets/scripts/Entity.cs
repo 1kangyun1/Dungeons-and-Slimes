@@ -297,17 +297,25 @@ abstract public class Entity : MonoBehaviour
         checkGameOver();
         if (newSpawn)
         {
+            if (gameObject.GetComponent<Slime>())
+            {
+                directionFacing = UnityEngine.Random.Range(0, 4);
+            }
             adjustDirection();
+
             updateVelo();
             newSpawn = false;
         }
-
         //displays entity
         clockTimer++;
         if (dying && clockTimer >= deathTime)
         {
             if (gameObject.GetComponent<Hero>())
+            {
                 GameObject.Find("GameManager").GetComponent<GameManager>().money += 3;
+                GameObject.Find("mymoney").GetComponent<CurrentMoney>().setCurrentMoney(GameObject.Find("GameManager").GetComponent<GameManager>().money);
+            }
+
             Destroy(this.gameObject);
         }
 

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<int, int[]> slimeTypes;
     public int money = 30;
     private int heroSpawnCounter = 0;
-    private int spawnRate = 500;
+    private int spawnRate = 200;
     private int generation = 0;
     public GameObject test;
     // Start is called before the first frame update
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameOver)
         {
-            Debug.Log("GAME OVER!");
+            SceneManager.LoadScene("gameOver");
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
