@@ -34,7 +34,10 @@ public class Slime : Entity
     }
     public override bool AttackTarget()
     {
+        GetComponent<AudioSource>().Play();
         return target.Attacked(attack);
     }
+
+    public override void checkGameOver(){}
 
 }

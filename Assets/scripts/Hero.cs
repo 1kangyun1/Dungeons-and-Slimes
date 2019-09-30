@@ -34,7 +34,15 @@ public class Hero : Entity
     }
     public override bool AttackTarget()
     {
+        GetComponent<AudioSource>().Play();
         return target.Attacked(attack);
+    }
+    public override void checkGameOver()
+    {
+        if (cY == 1 && (cX == 7 || cX == 8))
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+        }
     }
 
 }
